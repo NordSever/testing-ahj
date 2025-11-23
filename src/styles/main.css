@@ -1,0 +1,102 @@
+.disiable {
+  color: red;
+  opacity: 0.3;
+  filter: grayscale(70%);
+}
+
+.credit-card-widget {
+  max-width: 400px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+}
+
+
+
+.card-icons {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.card-icon {
+  width: 40px;
+  height: 25px;
+  object-fit: contain;
+}
+
+
+
+.card-form {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #aaa;
+}
+
+
+
+.submit-btn {
+  width: 40%;
+  padding: 14px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  
+}
+
+.submit-btn:hover {
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+
+
+
+/* Адаптивность */
+@media (max-width: 480px) {
+  .credit-card-widget {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+  
+  
+  
+  .card-form {
+    padding: 20px;
+  }
+}
+
