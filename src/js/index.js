@@ -11,6 +11,7 @@ export default class CardWidget {
     this.paymentSys = [];
     this.input = null;
     this.valueInput = '';
+    this.messageContainer = null;
     
   }
 
@@ -24,15 +25,17 @@ export default class CardWidget {
           <div class="form-group">
             <label for="card-input-${this.nameWidget}">Card Number</label>
             <input 
-              type="text" 
+              type="text"
               id="card-input-${this.nameWidget}" 
               placeholder="1234 5678 9012 3456"
-              maxlength="19"
+              
+              autofocus
             >
             
           </div>
           
           <button type="submit" class="submit-btn" id="submit-btn-${this.nameWidget}">Validate Card</button>
+          <div class="message-container" id="message-${this.nameWidget}"></div>
         </form>
       </div>
     `;
@@ -45,6 +48,7 @@ export default class CardWidget {
 
     this.input = document.getElementById(`card-input-${this.nameWidget}`);
     // this.valueInput = this.input.value;
+    this.messageContainer = document.getElementById(`message-${this.nameWidget}`);
 
     if(arrayPayments){
       this.paymentSys = arrayPayments;
@@ -53,6 +57,7 @@ export default class CardWidget {
       for (let i = 0; i < arrayPayments.length; i++){
         const currentIcon = document.createElement('img');
         currentIcon.src = this.paymentSys[i].src;
+        currentIcon.alt = this.paymentSys[i].key;
         currentIcon.classList.add('card-icon');
         
         currentIcon.classList.add(`card-icon-${this.nameWidget}`);
@@ -72,6 +77,7 @@ export default class CardWidget {
     this.input.addEventListener('input', () => {
       this.valueInput = this.input.value;
       this.controlInput();
+      this.clearMessage();
     })
 
     document.getElementById(`card-form-${this.nameWidget}`).addEventListener('submit', (e) => {
@@ -101,28 +107,73 @@ export default class CardWidget {
     }
   }
 
+  showMessage(text, type = 'error') {
+    this.clearMessage();
+    
+    const messageElement = document.createElement('div');
+    messageElement.className = `message message-${type}`;
+    messageElement.textContent = text;
+    
+    this.messageContainer.appendChild(messageElement);
+    
+  
+  }
+
+  clearMessage() {
+    if (this.messageContainer) {
+      this.messageContainer.innerHTML = '';
+    }
+  }
 
   controlSubmit(){
     const withoutSpace = this.valueInput.replace(/\s/g, '');
+    this.clearMessage(); 
 
     if(!digitsOnly(withoutSpace)){
-      return alert('Номер может состоять только из цифр и пробелов');
+      this.showMessage('Номер может состоять только из цифр и пробелов');
+      return;
     }
 
     if(!lengthNumber(withoutSpace)) {
-      return alert('Количество цифр номера должно быть больше 12 и меньше 20');
+      this.showMessage('Количество цифр номера должно быть от 13 до 19');
+      return;
     }
 
     if(!isSomePaymentSys(withoutSpace, this.paymentSys)) {
-      return alert('Такая платёжная система не принимается');
+      this.showMessage('Такая платёжная система не принимается');
+      return;
     } 
 
     if(!luhnCheck(withoutSpace)) {
-      return alert('Номер не проходит проверку алгоритмом Луна');
+      this.showMessage('Номер не проходит проверку алгоритмом Луна');
+      return;
     } 
 
-    return alert('Номер ВАЛИДНЫЙ');
+    this.showMessage('✅ Номер карты действителен!', 'success');
   }
+
+
+  // controlSubmit(){
+  //   const withoutSpace = this.valueInput.replace(/\s/g, '');
+
+  //   if(!digitsOnly(withoutSpace)){
+  //     return alert('Номер может состоять только из цифр и пробелов');
+  //   }
+
+  //   if(!lengthNumber(withoutSpace)) {
+  //     return alert('Количество цифр номера должно быть больше 12 и меньше 20');
+  //   }
+
+  //   if(!isSomePaymentSys(withoutSpace, this.paymentSys)) {
+  //     return alert('Такая платёжная система не принимается');
+  //   } 
+
+  //   if(!luhnCheck(withoutSpace)) {
+  //     return alert('Номер не проходит проверку алгоритмом Луна');
+  //   } 
+
+  //   return alert('Номер ВАЛИДНЫЙ');
+  // }
   
 
 }
